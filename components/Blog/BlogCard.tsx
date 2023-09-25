@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Image } from "@nextui-org/react";
 
 const BlogCard = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const BlogCard = () => {
               className="flex flex-col md:flex-row bg-white transition hover:shadow-xl"
             >
               <div className=" sm:block sm:basis-56">
-                <img
+                <Image
                   alt="Guitar"
                   src={item?.coverImg}
                   className="aspect-square h-full w-full object-cover"

@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { Button, Textarea } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-const page = () => {
+const AdminPage = () => {
+  const router = useRouter();
   const [blogData, setBlogData] = useState({
     title: "",
     descriptionEN: "",
@@ -12,7 +13,6 @@ const page = () => {
     author: "",
     authorImg: "",
   });
-  const router = useRouter();
   const handleSubmit = async () => {
     try {
       const res = await fetch(`http://localhost:3000/api`, {
@@ -109,7 +109,7 @@ const page = () => {
       </section>
     );
   }
-  return <div>Can't access admin page</div>;
+  return <div>Can't access admin AdminPage</div>;
 };
 
-export default page;
+export default AdminPage;
