@@ -9,7 +9,7 @@ const BlogCard = () => {
   useEffect(() => {
     const getBlogs = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/`, {
+        const res = await fetch(`https://blogkx.vercel.app//api/`, {
           method: "GET",
           headers: {
             "Content-type": "application/json",
