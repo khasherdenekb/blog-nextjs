@@ -52,6 +52,7 @@ const BlogCard = () => {
         blogs?.map((item: any, key: number) => {
           return (
             <article
+              onClick={() => router.push(`blog/${item?._id}`)}
               key={key}
               className="flex flex-col md:flex-row bg-white transition hover:shadow-xl"
             >
