@@ -55,8 +55,8 @@ export default function RootLayout({
                   href="https://khasherdene.vercel.app"
                   title="nextui.org homepage"
                 >
-                  <span className="text-default-600">
-                    Created and developer by 💜
+                  <span className="text-[10px] sm:text-[17px]">
+                    Created and developed by 💜
                   </span>
                   <p className="text-primary">Khash-Erdene </p>
                 </Link>

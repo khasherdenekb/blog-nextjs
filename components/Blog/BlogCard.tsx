@@ -1,15 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Image } from "@nextui-org/react";
+import { Image, Skeleton } from "@nextui-org/react";
 
 const BlogCard = () => {
+  const size = [0, 1, 2];
   const router = useRouter();
   const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getBlogs = async () => {
       try {
-        const res = await fetch(`https://blogkx.vercel.app//api/`, {
+        const res = await fetch(`https://blogkx.vercel.app/api/`, {
           method: "GET",
           headers: {
             "Content-type": "application/json",
@@ -21,6 +23,7 @@ const BlogCard = () => {
         } else {
           const data = await res.json();
           setBlogs(data?.posts);
+          setLoading(false);
         }
       } catch (error) {
         throw new Error("Failed to get post");
@@ -29,7 +32,22 @@ const BlogCard = () => {
     getBlogs();
   }, []);
   return (
-    <section className="flex flex-col max-w-6xl gap-10 mb-40 md:mt-32 px-10 lg:px-0">
+    <section className="flex flex-col max-w-6xl gap-10 mb-40 md:mt-32 px-10 xl:px-0">
+      <div className="flex flex-col gap-10 justify-center items-center w-full">
+        {loading &&
+          size.map((el, key) => {
+            return (
+              <div
+                key={key}
+                className="w-[80vw] md:w-[90%] flex items-center gap-3 justify-center"
+              >
+                <Skeleton className="w-screen rounded-lg h-96 md:h-full">
+                  <div className="h-52 w-full rounded-lg bg-default-300" />
+                </Skeleton>
+              </div>
+            );
+          })}
+      </div>
       {blogs &&
         blogs?.map((item: any, key: number) => {
           return (
