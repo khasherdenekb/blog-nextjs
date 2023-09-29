@@ -36,7 +36,7 @@ const AdminPage = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch(`${process.env.BASE_URL}/api/blog`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
