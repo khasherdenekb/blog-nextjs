@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Image, Skeleton } from "@nextui-org/react";
 
 async function fetchBlogs() {
-  const res = await fetch("http://localhost:3000/api/blog", {
+  const res = await fetch(`${process.env.BASE_URL}/api/blog`, {
     next: {
       revalidate: 10,
     },
