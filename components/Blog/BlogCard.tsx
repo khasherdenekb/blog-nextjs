@@ -47,7 +47,7 @@ const BlogCard = () => {
         blogs?.map((item: any, key: number) => {
           return (
             <article
-              onClick={() => router.push(`blog/${item?.id}`)}
+              onClick={() => router.push(`/blog/${item?.id}`)}
               key={key}
               className="flex flex-col md:flex-row bg-white transition hover:shadow-xl"
             >
@@ -74,7 +74,7 @@ const BlogCard = () => {
 
                 <div className="sm:flex sm:items-end sm:justify-end cursor-pointer">
                   <div
-                    onClick={() => router.push(`blog/${item?._id}`)}
+                    onClick={() => router.push(`/blog${item?._id}`)}
                     className="block bg-blue-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-blue-400"
                   >
                     Read Blog

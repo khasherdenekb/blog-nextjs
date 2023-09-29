@@ -1,10 +1,9 @@
-import { SignIn, SignOutButton } from "@clerk/nextjs";
+import { SignIn } from "@clerk/nextjs";
 
 const LoginPage = () => {
   return (
     <div>
       <SignIn />
-      <SignOutButton />
     </div>
   );
 };
