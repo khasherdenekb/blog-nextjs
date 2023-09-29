@@ -6,10 +6,9 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 
 export interface blogType {
   title: string;
-  descriptionEN: string;
-  descriptionMN: string;
-  coverImg: string;
-  author: string;
-  authorImg: string;
-  date: any;
+  contentImage: string;
+  authorImage: string;
+  authorName: string;
+  content: string;
+  date: Date | any;
 }

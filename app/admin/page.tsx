@@ -1,37 +1,62 @@
 "use client";
 import React, { useState } from "react";
 import { Button, Textarea } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+
 const AdminPage = () => {
-  const router = useRouter();
-  const [blogData, setBlogData] = useState({
+  const [blogData, setBlogData] = useState<any>({
     title: "",
-    descriptionEN: "",
-    descriptionMN: "",
-    coverImg: "",
-    author: "",
-    authorImg: "",
+    content: "",
+    contentImage: "",
+    authorImage: "",
+    authorName: "",
   });
+  const uploadImageToCloudinary = async (
+    image: object,
+    preset: string | undefined,
+    imageType: string
+  ) => {
+    const data: any = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", preset);
+    data.append("cloud_name", process.env.CLOUDNAME_ENV);
+
+    await fetch(
+      `https://api.cloudinary.com/v1_1/${process.env.CLOUDNAME_ENV}/image/upload`,
+      {
+        method: "POST",
+        body: data,
+      }
+    )
+      .then((res) => res.json())
+      .then((responseData) => {
+        setBlogData({ ...blogData, [imageType]: responseData.url });
+      });
+  };
+
   const handleSubmit = async () => {
     try {
-      const res = await fetch(`https://blogkx.vercel.app/api`, {
+      const res = await fetch(`http://localhost:3000/api/blog`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
           title: blogData.title,
-          descriptionEN: blogData.descriptionEN,
-          descriptionMN: blogData.descriptionMN,
-          coverImg: blogData.coverImg,
-          date: Date.now,
-          author: blogData.author,
-          authorImg: blogData.authorImg,
+          content: blogData.content,
+          authorName: blogData.authorName,
+          contentImage: blogData.contentImage,
+          authorImage: blogData.authorImage,
         }),
       });
       if (res.ok) {
-        router.push("/");
+        setBlogData({
+          title: "",
+          content: "",
+          contentImage: "",
+          authorImage: "",
+          authorName: "",
+        });
       } else {
         throw new Error("Failed to create a post");
       }
@@ -52,52 +77,60 @@ const AdminPage = () => {
           className="max-w-7xl"
         />
         <Textarea
-          value={blogData.descriptionEN}
+          value={blogData.content}
           onChange={(e) =>
-            setBlogData({ ...blogData, descriptionEN: e.target.value })
+            setBlogData({ ...blogData, content: e.target.value })
           }
-          label="English Content"
+          label="Content"
           labelPlacement="outside"
-          placeholder="Enter your english content"
+          placeholder="Enter your content"
           className="max-w-7xl"
         />
         <Textarea
-          value={blogData.descriptionMN}
+          value={blogData.authorName}
           onChange={(e) =>
-            setBlogData({ ...blogData, descriptionMN: e.target.value })
+            setBlogData({ ...blogData, authorName: e.target.value })
           }
-          label="Mongolian Content"
-          labelPlacement="outside"
-          placeholder="Enter your mongolian content"
-          className="max-w-7xl"
-        />
-        <Textarea
-          value={blogData.author}
-          onChange={(e) => setBlogData({ ...blogData, author: e.target.value })}
           label="Author name"
           labelPlacement="outside"
           placeholder="Author name"
           className="max-w-7xl"
         />
-        <Textarea
-          value={blogData.coverImg}
-          onChange={(e) =>
-            setBlogData({ ...blogData, coverImg: e.target.value })
-          }
-          label="Cover image"
-          labelPlacement="outside"
-          placeholder="Cover image"
-          className="max-w-7xl"
+        <label
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          htmlFor="file_input"
+        >
+          Author Image
+        </label>
+        <input
+          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+          type="file"
+          onChange={(e: any) => {
+            {
+              uploadImageToCloudinary(
+                e?.target.files[0],
+                process.env.UPLOAD_ENV,
+                "authorImage"
+              );
+            }
+          }}
         />
-        <Textarea
-          value={blogData.authorImg}
-          onChange={(e) =>
-            setBlogData({ ...blogData, authorImg: e.target.value })
-          }
-          label="Author image"
-          labelPlacement="outside"
-          placeholder="Author image"
-          className="max-w-7xl"
+        <label
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          htmlFor="file_input"
+        >
+          Content Image
+        </label>
+        <input
+          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+          type="file"
+          onChange={(e: any) => {
+            uploadImageToCloudinary(
+              e?.target.files[0],
+              process.env.UPLOAD_ENV,
+              "contentImage"
+            );
+          }}
         />
         <Button
           onClick={() => handleSubmit()}
@@ -109,7 +142,7 @@ const AdminPage = () => {
       </section>
     );
   }
-  return <div>Can't access admin AdminPage</div>;
+  return <>Can't access admin AdminPage</>;
 };
 
 export default AdminPage;

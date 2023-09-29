@@ -3,34 +3,29 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Image, Skeleton } from "@nextui-org/react";
 
+async function fetchBlogs() {
+  const res = await fetch("http://localhost:3000/api/blog", {
+    next: {
+      revalidate: 10,
+    },
+  });
+  const data = await res.json();
+  return data?.Posts;
+}
+
 const BlogCard = () => {
-  const size = [0, 1, 2];
-  const router = useRouter();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const size = [1, 2];
   useEffect(() => {
-    const getBlogs = async () => {
-      try {
-        const res = await fetch(`https://blogkx.vercel.app/api/`, {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json",
-          },
-        });
-
-        if (!res.ok) {
-          throw new Error("Failed to get post");
-        } else {
-          const data = await res.json();
-          setBlogs(data?.posts);
-          setLoading(false);
-        }
-      } catch (error) {
-        throw new Error("Failed to get post");
-      }
+    const GetBlogs = async () => {
+      const data = await fetchBlogs();
+      setBlogs(data);
+      setLoading(false);
     };
-    getBlogs();
+    GetBlogs();
   }, []);
+  const router = useRouter();
   return (
     <section className="flex flex-col max-w-6xl gap-10 mb-40 md:mt-32 px-10 xl:px-0">
       <div className="flex flex-col gap-10 justify-center items-center w-full">
@@ -52,14 +47,14 @@ const BlogCard = () => {
         blogs?.map((item: any, key: number) => {
           return (
             <article
-              onClick={() => router.push(`blog/${item?._id}`)}
+              onClick={() => router.push(`blog/${item?.id}`)}
               key={key}
               className="flex flex-col md:flex-row bg-white transition hover:shadow-xl"
             >
               <div className=" sm:block sm:basis-56">
                 <Image
                   alt="Guitar"
-                  src={item?.coverImg}
+                  src={item?.contentImage}
                   className="aspect-square h-full w-full object-cover"
                 />
               </div>
@@ -73,7 +68,7 @@ const BlogCard = () => {
                   </a>
 
                   <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-700">
-                    {item.descriptionEN}
+                    {item?.content}
                   </p>
                 </div>
 
