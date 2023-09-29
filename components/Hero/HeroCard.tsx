@@ -18,7 +18,7 @@ const HeroCard = () => {
           target="_blank"
           className="mt-4 flex flex-wrap justify-center gap-4"
         >
-          <div className="text-white hover:text-black block w-full rounded border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium  hover:bg-transparent focus:outline-none focus:ring active:text-opacity-75 sm:w-auto">
+          <div className="text-white hover:text-violet-700 block w-full rounded border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium  hover:bg-transparent focus:outline-none focus:ring active:text-opacity-75 sm:w-auto">
             Contact Me
           </div>
         </a>
